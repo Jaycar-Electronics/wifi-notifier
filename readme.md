@@ -10,7 +10,7 @@ The first thing you'll need to check is whether this project will work with your
 |---|---|---|
 |1 | [XC4430](http://jaycar.com.au/p/XC4430) | Leonardo Board
 |1 | [XC4614](http://jaycar.com.au/p/XC4614) | WiFi Shield
-|1 | [XC4494](http://jaycar.com.au/p/XC4494) | Analog Temperature Sensor m
+|1 | [XC4494](http://jaycar.com.au/p/XC4494) | Analog Temperature Sensor
 
 Of course, if you want to sense something different, you can use a different sensor module. For example, to have your Arduino email you when it's raining, use a [XC4603 Rain Sensor Module](https://jaycar.com.au/p/XC4603) .
 
