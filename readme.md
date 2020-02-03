@@ -1,16 +1,20 @@
 # WIFI Email Notifier
 
+<deprecated />
+
+**Note:** This project is now deprecated and is not supported. For email alerts, a simpler project would be to use IFTTT as shown in the [Intruder-Alert](https://jaycar.com.au/intruder-alert) project, or if you require more datalogging, try the [Motherload-datalogger](https://jaycar.com.au/motherload-datalogger) project. This project is now archived and not supported.
+
 This project was inspired by one of my colleagues who wanted to be notified if his server room got too hot, but you could easily change the trigger to some other form of input, or even to simply report some data back to you at a regular rate.
 
 The first thing you'll need to check is whether this project will work with your WIFI network and email address. Most email servers are fussy about who they will accept email from, but if your email address is provided by your ISP, it will generally accept email from connections coming in through that ISP. For example, I have Virgin Mobile Broadband, and the virginbroadband.com.au email server is happy to receive emails while I'm connected to Virgin Mobile Broadband. If you aren't sure, you can even check this with a computer before buying the components. Check out the How It Works section below.
 
 ## Shopping List:
 
-|Qty| Code | Description |
-|---|---|---|
-|1 | [XC4430](http://jaycar.com.au/p/XC4430) | Leonardo Board
-|1 | [XC4614](http://jaycar.com.au/p/XC4614) | WiFi Shield
-|1 | [XC4494](http://jaycar.com.au/p/XC4494) | Analog Temperature Sensor
+| Qty | Code                                    | Description               |
+| --- | --------------------------------------- | ------------------------- |
+| 1   | [XC4430](http://jaycar.com.au/p/XC4430) | Leonardo Board            |
+| 1   | [XC4614](http://jaycar.com.au/p/XC4614) | WiFi Shield               |
+| 1   | [XC4494](http://jaycar.com.au/p/XC4494) | Analog Temperature Sensor |
 
 Of course, if you want to sense something different, you can use a different sensor module. For example, to have your Arduino email you when it's raining, use a [XC4603 Rain Sensor Module](https://jaycar.com.au/p/XC4603) .
 
@@ -22,13 +26,13 @@ This is another easy to build project- the WIFI Shield plugs into the top of the
 
 The important connections are listed below:
 
-|Leonardo |WIFI Shield |Temp Sensor |Function
-|--- |--- |--- |---
-|5V |5V |VCC |Power
-|GND |GND |GND |Ground
-|D0(RX) |TX ||Data from Shield to Leonardo
-|D1(TX) |RX ||Data from Leonardo to Shield
-|A0 ||OUT |Analog temperature signal
+| Leonardo | WIFI Shield | Temp Sensor | Function                     |
+| -------- | ----------- | ----------- | ---------------------------- |
+| 5V       | 5V          | VCC         | Power                        |
+| GND      | GND         | GND         | Ground                       |
+| D0(RX)   | TX          |             | Data from Shield to Leonardo |
+| D1(TX)   | RX          |             | Data from Leonardo to Shield |
+| A0       |             | OUT         | Analog temperature signal    |
 
 You should also ensure that the two small slide switches on the shield are set to the 'ON' position.
 
@@ -49,20 +53,20 @@ If the email is triggered immediately and the air temperature is not above 35 de
 The WIFI shield is an impressive piece of gear for its size- all the smarts are hidden under the metal shield in one corner of the board. Still, we have to do a bit of work to get it to send emails. After the initialisation code which makes sure that the shield is connected to a WIFI network, the code does the following when triggered:
 
 1. Connect to the email server (smtp server name) on port 25
-  * The server sends back a `220` response in greeting.
-3. Send `HELO email_server_name ` to server.
-  * The server sends back a `250` response if no error was found.
-5. Send `MAIL FROM :sender_email_address` to server.
-  * The server sends back a `250` response if no error was found.
-7. Send `RCPT TO:recipient_email_address` to server.
-  * The server sends back a `250` response if no error was found.
-9. Send `DATA` to server.
-  * The server sends back a `354` response if it is ready to receive data.
-11. The body of the email, including subject line as `Subject:subject` is sent to the server
-12. The end of the data is indicated by a `<CR><LF>.<CR><LF>` sequence.
-  * The server sends back a `250` response if no error was found.
-14. Send `QUIT` to server.
-  * Server sends back `221` code and closes the connection.
+   - The server sends back a `220` response in greeting.
+2. Send `HELO email_server_name` to server.
+   - The server sends back a `250` response if no error was found.
+3. Send `MAIL FROM :sender_email_address` to server.
+   - The server sends back a `250` response if no error was found.
+4. Send `RCPT TO:recipient_email_address` to server.
+   - The server sends back a `250` response if no error was found.
+5. Send `DATA` to server.
+   - The server sends back a `354` response if it is ready to receive data.
+6. The body of the email, including subject line as `Subject:subject` is sent to the server
+7. The end of the data is indicated by a `<CR><LF>.<CR><LF>` sequence.
+   - The server sends back a `250` response if no error was found.
+8. Send `QUIT` to server.
+   - Server sends back `221` code and closes the connection.
 
 Note that some items will depend on your ISP/email address, and the subject and email body will depend on what you want to communicate.
 
@@ -74,7 +78,7 @@ On Windows 7 and Windows 10, the telnet program is not enabled by default, but c
 
 To run telnet, open a Command Prompt and type: telnet
 
-```
+```plaintext
 servername 25
 ```
 
@@ -92,14 +96,14 @@ If you see a '571' error code, then your connection is probably being blocked to
 
 To change the sketch to suit your settings, you need to change the following lines at the start to suit the settings that worked for you in telnet:
 
-```c
-#define SSIDNAME "********"
-#define SSIDPWD "********"
-#define HOSTNAME "smtp.virginbroadband.com.au"
-#define SERVERNAME "virginbroadband.com.au"
-#define HOSTPORT "25"
-#define RCPTEMAIL "*****@virginbroadband.com.au"
-#define SUBJECTLINE "Subject: Temperature Alert from Arduino"
+```cpp
+#define SSIDNAME "********"
+#define SSIDPWD "********"
+#define HOSTNAME "smtp.virginbroadband.com.au"
+#define SERVERNAME "virginbroadband.com.au"
+#define HOSTPORT "25"
+#define RCPTEMAIL "*****@virginbroadband.com.au"
+#define SUBJECTLINE "Subject: Temperature Alert from Arduino"
 ```
 
 Of course, you'll need to make sure the WIFI name (SSID) and password are set to match your ISP too. The sketch provides some diagnostic information to the serial port monitor, so you can see that everything works, and if not, where it fails. You can also manually trigger an email send by pressing the 'enter' key in the serial monitor.
@@ -110,25 +114,26 @@ The first thing you would want to do after personalising to suit your WIFI and e
 
 There's no reason you can't report multiple values- to output multiple analog inputs, you could use something like:
 
-```c
-ltoa(analogRead(A0),num,10);    // convert number to string
-WIFIsend("\r\Analog 0 is:");      //explanation
-WIFIsend(num);      //value      //value
-ltoa(analogRead(A1),num,10);    // convert number to string
-WIFIsend("\r\Analog 1 is:");      //explanation
-WIFIsend(num);      //value      //value
+```cpp
+ltoa(analogRead(A0),num,10);    // convert number to string
+WIFIsend("\rAnalog 0 is:");      //explanation
+WIFIsend(num);      //value
+ltoa(analogRead(A1),num,10);    // convert number to string
+WIFIsend("\rAnalog 1 is:");      //explanation
+WIFIsend(num);      //value      //value
 ```
+
 If you need to change the minimum time between automatic emails, then the value RPTDELAY sets this in milliseconds (900000 by default, which is 15 minutes or 900 seconds). The UL after the number means it is an unsigned long number, which can hold a value up to approximately 50 days.
 
 If the line:
 
-```c
+```cpp
 if((coretemp>35)&&(rpttimeout+RPTDELAY<millis())){
 ```
 
 is changed to:
 
-```c
+```cpp
 if((rpttimeout+RPTDELAY<millis())){
 ```
 
@@ -136,8 +141,8 @@ Then the email will be sent unconditionally every 15 minutes (or whatever period
 
 The line:
 
-```c
-for(int i=0;i<3;i++){     //maximum of three attempts
+```cpp
+for(int i=0;i<3;i++){     //maximum of three attempts
 ```
 
 in the `doemail()` function determines the maximum number of times the sketch attempts to send the email. If you have an intermittent WIFI connection, you could increase the 3 value to increase the chances of a message getting through.
